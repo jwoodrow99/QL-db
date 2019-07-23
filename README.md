@@ -4,14 +4,14 @@ QL-db is an extremely lightweight database, designed to be used as a learning to
 
 This is a small project I have started with the intent to incorporate it in a later version of my QL-dev library, which currently only supports basic DOM manipulation in browser. I am working towards making QL-dev as more of a Node.js framework rather than just a small library to handle DOM manipulation. I will be integrating a version of QL-db later on down the road once I am happy with it, and adding in a basic MVC file structure to the framework and some command line tools as well.
 
-# Use
-
 ### INTRO
 This git repo illustrates what a small Node.js application should look like with QL-db. However all you require is a directory called **"data"** at the root of your project and the **"QL-db.js"** file inside of the **"data"** directory and you are ready to go!
 
 All database files will be stored in the **"data"** directory, you should not manually remove or add anything within the directory.
 
 All code examples are relative to the root of the directory, in the **"app.js"** file.
+
+# Use
 
 ### Creating the database
 ```javascript
@@ -59,7 +59,7 @@ A variation of the **find** function is the **findId** function. QL-db stores al
 
 ### delete(string, object)
 ```javascript
-db1.find('friends', {
+db1.delete('friends', {
     age:22
 });
 ```
