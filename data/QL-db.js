@@ -7,12 +7,12 @@ class jsonDB {
 
     constructor(name) {
 
-        this.DIR = path.join(__dirname, 'db/' + name);
+        this.name = name;
+        this.DIR = path.join(__dirname, 'db/' + this.name);
         this.structure = {
             schema:{},
             records:{}
         }
-        this.name = name;
 
         // Created the dir structure if it has not already been created & db dir
         fs.mkdirSync(this.DIR, { recursive: true });
@@ -49,29 +49,34 @@ class jsonDB {
         let obj = this.loadTable(table);
         let matching = {};
 
-        for (let i = 0; i < Object.keys(obj.records).length; i++) {
-            for (let j = 0; j < Object.keys(property).length; j++) {
+        if (Object.keys(property).length == 0) {
+            matching = this.show(table);
+        } else {
+            for (let i = 0; i < Object.keys(obj.records).length; i++) {
+                for (let j = 0; j < Object.keys(property).length; j++) {
 
-                let curMatch = true;
+                    let curMatch = true;
 
-                if (obj.records[i][Object.keys(property)[j]] == property[Object.keys(property)[j]] && curMatch == true) {
-                    curMatch = true;
-                } else {
-                    curMatch = false;
+                    if (obj.records[i][Object.keys(property)[j]] == property[Object.keys(property)[j]] && curMatch == true) {
+                        curMatch = true;
+                    } else {
+                        curMatch = false;
+                    }
+
+                    if (j == Object.keys(property).length-1 && curMatch == true) {
+                        matching[i] = obj.records[i];
+                    }
                 }
-
-                if (j == Object.keys(property).length-1 && curMatch == true) {
-                    matching[i] = obj.records[i];
-                }
-            }
-        } // end for
+            } // end for
+        }
 
         if (Object.keys(matching).length == 0) {
             console.log(colors.red("No matches found in", this.name+'.'+table, "for:"), colors.yellow(property) + "\n");
             return null;
         } else {
             console.log(colors.green("Match found in", this.name+'.'+table, "for:"), colors.yellow(property));
-            console.log(colors.cyan(matching) + "\n");
+            console.log(matching);
+            console.log("\n");
             return matching;
         } // end if
     }
@@ -84,7 +89,8 @@ class jsonDB {
         } else {
             matching[id] = record;
             console.log(colors.green("Match found in", this.name+'.'+table, "for id:"), colors.yellow(id));
-            console.log(colors.cyan(matching) + "\n");
+            console.log(matching);
+            console.log("\n");
             return matching;
         }
     }
@@ -122,10 +128,23 @@ class jsonDB {
         console.log("\n");
     }
 
+    dropTable(table){
+        fs.unlinkSync(path.join(this.DIR, table + '.json'));
+        console.log(colors.green("Table", this.name+'.'+table, "dropped sucessfully!"));
+        console.log("\n");
+    }
+
+    dropDb(){
+        fs.unlinkSync(path.join(this.DIR));
+        console.log(colors.green("Database", this.name+'.'+table, "dropped sucessfully!"));
+        console.log("\n");
+    }
+
     show(table){
         console.log(colors.green('All records in', this.name+'.'+table + ':'));
         console.log(this.loadTable(table).records);
         console.log("\n");
+        return this.loadTable(table).records;
     }
 
     list(){
@@ -139,6 +158,7 @@ class jsonDB {
         console.log(colors.green('All tables in', this.name+':'));
         console.log(colors.cyan(list));
         console.log("\n");
+        return list;
     }
 
     loadTable(table){

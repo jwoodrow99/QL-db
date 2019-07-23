@@ -1,57 +1,24 @@
-const db = require('./data/jsonDB.js');
+const db = require('./data/QL-db.js');
 
-const testDB = new db("testDB");
+const db1 = new db("db1");
 
-testDB.newTable('test1', {
-    data1:"string",
-    data2:"number",
-    data3:"number"
+db1.newTable('friends', {
+    name:"string",
+    age:"number"
 });
 
-testDB.insert('test1', [{
-    data1:"data1",
-    data2:1,
-    data3:2
+db1.insert('friends', [{
+    name:"John",
+    age:23
 },{
-    data1:"data2",
-    data2:1,
-    data3:2
+    name:"Maddie",
+    age:25
 },{
-    data1:"data3",
-    data2:3,
-    data3:2
+    name:"Kyle",
+    age:22
 },{
-    data1:"data4",
-    data2:1,
-    data3:3
+    name:"Allison",
+    age:22
 }]);
 
-testDB.show('test1');
-
-const testDB2 = new db("testDB");
-
-testDB2.newTable('test2', {
-    data1:"string",
-    data2:"number",
-    data3:"number"
-});
-
-testDB2.insert('test2', [{
-    data1:"data1",
-    data2:1,
-    data3:2
-},{
-    data1:"data2",
-    data2:1,
-    data3:2
-},{
-    data1:"data3",
-    data2:3,
-    data3:2
-},{
-    data1:"data4",
-    data2:1,
-    data3:3
-}]);
-
-testDB2.show('test2');
+console.log(db1.find('friends', {}));
