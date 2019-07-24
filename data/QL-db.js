@@ -1,5 +1,6 @@
 
 const fs = require('fs');
+const rm = require("rimraf");
 const path = require('path');
 const colors = require('colors');
 
@@ -129,14 +130,14 @@ class jsonDB {
     }
 
     dropTable(table){
-        fs.unlinkSync(path.join(this.DIR, table + '.json'));
+        rm.sync(path.join(this.DIR, table + '.json'));
         console.log(colors.green("Table", this.name+'.'+table, "dropped sucessfully!"));
         console.log("\n");
     }
 
     dropDb(){
-        fs.unlinkSync(path.join(this.DIR));
-        console.log(colors.green("Database", this.name+'.'+table, "dropped sucessfully!"));
+        rm.sync(path.join(this.DIR));
+        console.log(colors.green("Database", this.name, "dropped sucessfully!"));
         console.log("\n");
     }
 

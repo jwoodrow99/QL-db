@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jwoodrow99/json-db#readme",
   "dependencies": {
-    "colors": "^1.3.3"
+    "colors": "^1.3.3",
+    "rimraf": "^2.6.3"
   }
 }
