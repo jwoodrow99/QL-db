@@ -1,2 +1,1 @@
-
-const db = require('./data/QL-db.js');
+const db = require('./lib/QL-db.js');
